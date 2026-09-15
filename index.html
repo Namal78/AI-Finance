@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finova — Smart Money Decisions, Powered by Intelligence</title>
+  <meta name="description" content="Smart money decisions, powered by intelligence. A premium modern AI finance dashboard with real-time tracking, analytics, budgets, and savings goals." />
+  <meta property="og:title" content="Finova — Smart Money Decisions, Powered by Intelligence" />
+  <meta property="og:description" content="Smart money decisions, powered by intelligence. A premium modern AI finance dashboard with real-time tracking, analytics, budgets, and savings goals." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Google Fonts: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Finova Premium Styling -->
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- Animated Ambient Background Orbs -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Custom Cursor Elements (Desktop only) -->
+  <div class="custom-cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="custom-cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <!-- Mobile Sidebar Overlay Backdrop -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- App Main Wrapper -->
+  <div class="app-wrapper">
+
+    <!-- ====================================================================
+         2. SIDEBAR NAVIGATION
+         ==================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo" id="brandLogo">
+          <div class="brand-symbol">◈</div>
+          <span class="brand-name">FINOVA</span>
+          <span class="brand-tag">AI</span>
+        </div>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main Menu</div>
+        <a class="nav-item active" data-view="dashboard" id="nav-dashboard">
+          <i class="fa-solid fa-table-columns"></i>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-item" data-view="transactions" id="nav-transactions">
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+          <span>Transactions</span>
+        </a>
+        <a class="nav-item" data-view="analytics" id="nav-analytics">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Analytics</span>
+        </a>
+        <a class="nav-item" data-view="budgets" id="nav-budgets">
+          <i class="fa-solid fa-wallet"></i>
+          <span>Budgets</span>
+        </a>
+        <a class="nav-item" data-view="goals" id="nav-goals">
+          <i class="fa-solid fa-bullseye"></i>
+          <span>Goals</span>
+        </a>
+
+        <div class="nav-section-title">Intelligence</div>
+        <a class="nav-item" data-view="ai-insights" id="nav-ai-insights">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>AI Insights</span>
+        </a>
+        <!-- <a class="nav-item" data-view="settings" id="nav-settings">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a> -->
+      </nav>
+
+      <!-- Sidebar Footer User Profile -->
+      <div class="sidebar-footer">
+        <div class="user-profile-preview" id="sidebarUserProfile" title="View Profile Settings">
+          <div class="user-avatar-wrap">
+            <div class="user-avatar-initials" id="sidebarUserAvatar">AM</div>
+            <div class="status-badge-online"></div>
+          </div>
+          <div class="user-info">
+            <span class="user-name" id="sidebarUserName">Alex Morgan</span>
+            <span class="user-role">Personal Account</span>
+          </div>
+        </div>
+        <button class="sidebar-settings-btn" id="sidebarFooterSettingsBtn" aria-label="Settings">
+          <i class="fa-solid fa-sliders"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         MAIN CONTENT AREA
+         ==================================================================== -->
+    <main class="main-content" id="mainContent">
+
+      <!-- ==================================================================
+           3. TOP NAVBAR
+           ================================================================== -->
+      <header class="top-navbar" id="topNavbar">
+        <div class="navbar-left">
+          <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open navigation menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="greeting-wrapper">
+            <h1 class="greeting-title" id="greetingTitle">Good evening, Alex <span class="wave">👋</span></h1>
+            <p class="greeting-subtitle">Here's your financial overview.</p>
+          </div>
+        </div>
+
+        <div class="navbar-right">
+          <!-- Quick Search Button -->
+          <button class="nav-action-btn" id="quickSearchBtn" title="Search transactions (Ctrl+K)" aria-label="Search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+
+          <!-- Notifications Button & Panel -->
+          <div style="position: relative;">
+            <button class="nav-action-btn" id="notificationsBtn" title="Notifications" aria-label="Notifications">
+              <i class="fa-regular fa-bell"></i>
+              <span class="notification-badge"></span>
+            </button>
+
+            <!-- Notifications Dropdown -->
+            <div class="notifications-panel" id="notificationsPanel">
+              <div class="notifications-header">
+                <span class="notifications-title">Notifications</span>
+                <span style="font-size: 0.75rem; color: var(--primary); cursor: pointer;" id="markAllReadBtn">Mark read</span>
+              </div>
+              <div class="notifications-list">
+                <div class="notification-item">
+                  <div class="notification-icon" style="background: var(--income-light); color: var(--income);">
+                    <i class="fa-solid fa-arrow-down"></i>
+                  </div>
+                  <div>
+                    <div class="notification-text"><strong>Salary deposited:</strong> +$2,500.00 credited to account.</div>
+                    <div class="notification-time">Today, 9:00 AM</div>
+                  </div>
+                </div>
+                <div class="notification-item">
+                  <div class="notification-icon" style="background: var(--warning-light); color: var(--warning);">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                  </div>
+                  <div>
+                    <div class="notification-text"><strong>Budget Alert:</strong> Food & Dining spending has reached 78% of monthly limit.</div>
+                    <div class="notification-time">Yesterday</div>
+                  </div>
+                </div>
+                <div class="notification-item">
+                  <div class="notification-icon" style="background: var(--primary-light); color: var(--primary);">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                  </div>
+                  <div>
+                    <div class="notification-text"><strong>AI Insight:</strong> You saved $140 more compared to this time last month!</div>
+                    <div class="notification-time">2 days ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Currency Quick Switcher -->
+          <div class="currency-dropdown-wrap">
+            <button class="currency-select-btn" id="currencyToggleBtn" title="Select Currency">
+              <span id="currentCurrencySymbol">$</span>
+              <span id="currentCurrencyCode">USD</span>
+              <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; color: var(--text-muted);"></i>
+            </button>
+            <div class="currency-menu" id="currencyMenu">
+              <div class="currency-option active" data-currency="USD" data-symbol="$">
+                <span>USD ($)</span>
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div class="currency-option" data-currency="EUR" data-symbol="€">
+                <span>EUR (€)</span>
+              </div>
+              <div class="currency-option" data-currency="GBP" data-symbol="£">
+                <span>GBP (£)</span>
+              </div>
+              <div class="currency-option" data-currency="INR" data-symbol="₹">
+                <span>INR (₹)</span>
+              </div>
+              <div class="currency-option" data-currency="PKR" data-symbol="Rs ">
+                <span>PKR (Rs)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dark / Light Mode Toggle -->
+          <button class="nav-action-btn" id="themeToggleBtn" title="Toggle Dark/Light Mode" aria-label="Toggle theme">
+            <i class="fa-solid fa-moon" id="themeIcon"></i>
+          </button>
+
+          <!-- Primary Add Transaction Button -->
+          <button class="btn-primary-gradient" id="btnOpenAddTx">
+            <i class="fa-solid fa-plus"></i>
+            <span>Add Transaction</span>
+          </button>
+
+          <!-- Top Navbar User Avatar -->
+          <div class="user-avatar-wrap" id="topNavUserAvatar" title="Alex Morgan - Personal Account" style="cursor: pointer;">
+            <div class="user-avatar-initials" style="width: 38px; height: 38px; font-size: 0.9rem;">AM</div>
+            <div class="status-badge-online"></div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ==================================================================
+           BODY VIEWS
+           ================================================================== -->
+      <div class="content-body">
+
+        <!-- ================================================================
+             VIEW 1: DASHBOARD OVERVIEW
+             ================================================================ -->
+        <section class="view-section active-view" id="view-dashboard">
+
+          <!-- 4. HERO / AI INSIGHT CARD -->
+          <div class="ai-hero-card" id="aiHeroCard">
+            <div class="ai-card-inner">
+              <div class="ai-card-content">
+                <div class="ai-badge-row">
+                  <span class="ai-powered-badge">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Powered
+                  </span>
+                  <span style="font-size: 0.76rem; color: var(--text-muted);" id="aiInsightTimestamp">Updated just now</span>
+                </div>
+                <h2 class="ai-hero-title">Your AI Financial Insight</h2>
+                <p class="ai-hero-message" id="aiHeroMessage">
+                  "You're spending <span class="highlight">18% less on dining</span> this month. If you maintain this trend, you could save approximately <span class="highlight">$420 more</span> this month."
+                </p>
+              </div>
+              <div class="ai-card-action">
+                <button class="btn-ai-view" id="btnHeroViewInsights">
+                  View Insights <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button style="font-size: 0.75rem; color: var(--text-muted); cursor: pointer; text-decoration: underline;" id="btnRefreshAiInsight">
+                  <i class="fa-solid fa-rotate-right"></i> Refresh analysis
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. FINANCIAL SUMMARY CARDS -->
+          <div class="summary-cards-grid">
+            <!-- Total Balance -->
+            <div class="fin-card summary-card animate-stagger-1" id="cardTotalBalance">
+              <div class="summary-card-top">
+                <div class="summary-icon-wrap summary-icon-balance">
+                  <i class="fa-solid fa-wallet"></i>
+                </div>
+                <span class="trend-badge positive" id="trendBalance">
+                  <i class="fa-solid fa-arrow-trend-up"></i> +8.4%
+                </span>
+              </div>
+              <div class="summary-card-body">
+                <span class="summary-label">Total Balance</span>
+                <span class="summary-amount" id="statTotalBalance">$24,680.50</span>
+                <span class="summary-desc">Combined liquid wealth</span>
+              </div>
+            </div>
+
+            <!-- Income -->
+            <div class="fin-card summary-card animate-stagger-2" id="cardIncome">
+              <div class="summary-card-top">
+                <div class="summary-icon-wrap summary-icon-income">
+                  <i class="fa-solid fa-money-bill-trend-up"></i>
+                </div>
+                <span class="trend-badge positive" id="trendIncome">
+                  <i class="fa-solid fa-arrow-trend-up"></i> +12.6%
+                </span>
+              </div>
+              <div class="summary-card-body">
+                <span class="summary-label">Monthly Income</span>
+                <span class="summary-amount" id="statIncome">$8,450.00</span>
+                <span class="summary-desc">vs. $7,504.00 last month</span>
+              </div>
+            </div>
+
+            <!-- Expenses -->
+            <div class="fin-card summary-card animate-stagger-3" id="cardExpenses">
+              <div class="summary-card-top">
+                <div class="summary-icon-wrap summary-icon-expenses">
+                  <i class="fa-solid fa-credit-card"></i>
+                </div>
+                <span class="trend-badge negative" id="trendExpenses">
+                  <i class="fa-solid fa-arrow-trend-down"></i> -4.8%
+                </span>
+              </div>
+              <div class="summary-card-body">
+                <span class="summary-label">Monthly Expenses</span>
+                <span class="summary-amount" id="statExpenses">$3,280.40</span>
+                <span class="summary-desc">38.8% of incoming cash</span>
+              </div>
+            </div>
+
+            <!-- Savings -->
+            <div class="fin-card summary-card animate-stagger-4" id="cardSavings">
+              <div class="summary-card-top">
+                <div class="summary-icon-wrap summary-icon-savings">
+                  <i class="fa-solid fa-piggy-bank"></i>
+                </div>
+                <span class="trend-badge positive" id="trendSavings">
+                  <i class="fa-solid fa-arrow-trend-up"></i> +16.2%
+                </span>
+              </div>
+              <div class="summary-card-body">
+                <span class="summary-label">Net Savings</span>
+                <span class="summary-amount" id="statSavings">$5,169.60</span>
+                <span class="summary-desc">61.2% healthy savings rate</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. INCOME VS EXPENSES CHART & 7. SPENDING CATEGORIES -->
+          <div class="analytics-split-grid reveal-on-scroll">
+            <!-- Chart Card -->
+            <div class="fin-card chart-card" id="mainChartCard">
+              <div class="chart-card-header">
+                <div class="chart-title-wrap">
+                  <h3 class="section-title">Income vs Expenses</h3>
+                  <span class="section-subtitle">Real-time cash flow & spending trajectory</span>
+                </div>
+                <div class="timeframe-controls" id="timeframeControls">
+                  <button class="timeframe-btn" data-range="7d">7 Days</button>
+                  <button class="timeframe-btn active" data-range="30d">30 Days</button>
+                  <button class="timeframe-btn" data-range="6m">6 Months</button>
+                  <button class="timeframe-btn" data-range="1y">1 Year</button>
+                </div>
+              </div>
+              <div class="chart-container-wrap">
+                <canvas id="incomeExpenseChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Spending Categories -->
+            <div class="fin-card categories-card" id="categoriesCard">
+              <div class="section-header">
+                <div>
+                  <h3 class="section-title">Where your money goes</h3>
+                  <span class="section-subtitle">Top expenditure categories this period</span>
+                </div>
+              </div>
+              <div class="categories-list" id="categoryProgressList">
+                <!-- Dynamically populated categories -->
+              </div>
+            </div>
+          </div>
+
+          <!-- 8. RECENT TRANSACTIONS PREVIEW -->
+          <div class="fin-card transactions-card reveal-on-scroll" id="recentTxCard">
+            <div class="section-header">
+              <div>
+                <h3 class="section-title">Recent Transactions</h3>
+                <span class="section-subtitle">Latest incoming & outgoing financial activity</span>
+              </div>
+              <button class="btn-secondary" id="btnViewAllTransactions">
+                View All <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <!-- Desktop Table View -->
+            <div class="table-responsive">
+              <table class="fin-table">
+                <thead>
+                  <tr>
+                    <th>Transaction</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Payment Method</th>
+                    <th style="text-align: right;">Amount</th>
+                    <th style="text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="recentTransactionsTableBody">
+                  <!-- Generated via script.js -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Mobile Card Layout -->
+            <div class="mobile-tx-cards" id="recentTransactionsMobileList">
+              <!-- Generated via script.js -->
+            </div>
+          </div>
+
+          <!-- Budgets & Savings Goals Split Preview -->
+          <div class="budgets-goals-grid reveal-on-scroll">
+            <!-- Budgets Preview -->
+            <div class="fin-card">
+              <div class="section-header" style="margin-bottom: 16px;">
+                <div>
+                  <h3 class="section-title">Monthly Budgets</h3>
+                  <span class="section-subtitle">Smart pacing to prevent overspending</span>
+                </div>
+                <button class="btn-secondary" id="btnViewBudgetsTab">
+                  Manage <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
+              <div class="budget-items-list" id="dashboardBudgetList">
+                <!-- Injected via script.js -->
+              </div>
+            </div>
+
+            <!-- Goals Preview -->
+            <div class="fin-card">
+              <div class="section-header" style="margin-bottom: 16px;">
+                <div>
+                  <h3 class="section-title">Savings Goals</h3>
+                  <span class="section-subtitle">Building toward major milestones</span>
+                </div>
+                <button class="btn-secondary" id="btnOpenAddGoalModal">
+                  <i class="fa-solid fa-plus"></i> Add Goal
+                </button>
+              </div>
+              <div class="goals-grid" id="dashboardGoalsList">
+                <!-- Injected via script.js -->
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             VIEW 2: TRANSACTIONS (COMPREHENSIVE)
+             ================================================================ -->
+        <section class="view-section" id="view-transactions">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">All Transactions</h2>
+              <p class="section-subtitle">Search, filter, and audit every item with real-time balance reconciliation</p>
+            </div>
+            <button class="btn-primary-gradient" id="btnOpenAddTxSecondary">
+              <i class="fa-solid fa-plus"></i>
+              <span>Add Transaction</span>
+            </button>
+          </div>
+
+          <!-- 13. SEARCH + FILTERS -->
+          <div class="fin-card filter-bar-card">
+            <div class="filter-search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="txFilterSearchInput" placeholder="Search by name, category, or payment method..." />
+            </div>
+
+            <div class="filter-controls-group">
+              <!-- Type segmented tabs -->
+              <div class="filter-segmented-tabs" id="txTypeFilterTabs">
+                <button class="tab-filter-btn active" data-type="ALL">All</button>
+                <button class="tab-filter-btn" data-type="INCOME">Income</button>
+                <button class="tab-filter-btn" data-type="EXPENSE">Expenses</button>
+              </div>
+
+              <!-- Category Select -->
+              <select class="custom-select" id="txCategoryFilterSelect">
+                <option value="ALL">All Categories</option>
+                <option value="Food">🍔 Food</option>
+                <option value="Shopping">🛍 Shopping</option>
+                <option value="Transport">🚗 Transport</option>
+                <option value="Bills">🏠 Bills</option>
+                <option value="Entertainment">🎬 Entertainment</option>
+                <option value="Health">💊 Health</option>
+                <option value="Education">📚 Education</option>
+                <option value="Other">📦 Other</option>
+              </select>
+
+              <!-- Sorting Select -->
+              <select class="custom-select" id="txSortSelect">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="highest">Highest Amount</option>
+                <option value="lowest">Lowest Amount</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Full Table Card -->
+          <div class="fin-card transactions-card">
+            <div class="table-responsive">
+              <table class="fin-table">
+                <thead>
+                  <tr>
+                    <th>Transaction</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Payment Method</th>
+                    <th>Notes</th>
+                    <th style="text-align: right;">Amount</th>
+                    <th style="text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="fullTransactionsTableBody">
+                  <!-- Populated by script.js -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="mobile-tx-cards" id="fullTransactionsMobileList">
+              <!-- Mobile view -->
+            </div>
+
+            <!-- 27. EMPTY STATE CONTAINER -->
+            <div class="empty-state-card" id="txEmptyState" style="display: none;">
+              <div class="empty-state-icon">
+                <i class="fa-solid fa-receipt"></i>
+              </div>
+              <h3 class="empty-state-title">Your financial journey starts here.</h3>
+              <p class="empty-state-desc">Add your first transaction and let Finova organize your money with AI clarity.</p>
+              <button class="btn-primary-gradient" id="btnEmptyAddTx">
+                <i class="fa-solid fa-plus"></i> Add Transaction
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             VIEW 3: ADVANCED ANALYTICS
+             ================================================================ -->
+        <section class="view-section" id="view-analytics">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Financial Analytics & Intelligence</h2>
+              <p class="section-subtitle">Deep dive statistical trends, cash flow distributions, and future growth</p>
+            </div>
+            <div class="timeframe-controls" id="analyticsTimeframeControls">
+              <button class="timeframe-btn active" data-analytics-range="30d">Last 30 Days</button>
+              <button class="timeframe-btn" data-analytics-range="6m">6 Months</button>
+              <button class="timeframe-btn" data-analytics-range="1y">1 Year</button>
+            </div>
+          </div>
+
+          <!-- KPI Cards Grid -->
+          <div class="analytics-kpi-grid">
+            <div class="fin-card analytics-kpi-card">
+              <span class="analytics-kpi-title">Total Income</span>
+              <span class="analytics-kpi-value" style="color: var(--income);" id="kpiTotalIncome">$8,450.00</span>
+            </div>
+            <div class="fin-card analytics-kpi-card">
+              <span class="analytics-kpi-title">Total Expenses</span>
+              <span class="analytics-kpi-value" style="color: var(--expense);" id="kpiTotalExpenses">$3,280.40</span>
+            </div>
+            <div class="fin-card analytics-kpi-card">
+              <span class="analytics-kpi-title">Savings Rate</span>
+              <span class="analytics-kpi-value" style="color: #38bdf8;" id="kpiSavingsRate">61.2%</span>
+            </div>
+            <div class="fin-card analytics-kpi-card">
+              <span class="analytics-kpi-title">Avg Daily Spending</span>
+              <span class="analytics-kpi-value" id="kpiDailySpend">$109.34</span>
+            </div>
+            <div class="fin-card analytics-kpi-card">
+              <span class="analytics-kpi-title">Top Expense Category</span>
+              <span class="analytics-kpi-value" style="font-size: 1.15rem;" id="kpiTopCategory">🍔 Food</span>
+            </div>
+            <div class="fin-card analytics-kpi-card">
+              <span class="analytics-kpi-title">Monthly Comparison</span>
+              <span class="analytics-kpi-value" style="color: var(--income);" id="kpiMoM">+14.2% MoM</span>
+            </div>
+          </div>
+
+          <!-- Quad Charts -->
+          <div class="analytics-charts-quad">
+            <!-- 1. Income vs Expenses Bar/Line -->
+            <div class="fin-card quad-chart-card">
+              <div class="section-header">
+                <h4 class="section-title" style="font-size: 1.05rem;">1. Cash Flow Comparison</h4>
+                <span class="section-subtitle">Income vs Outflow</span>
+              </div>
+              <div class="quad-chart-wrap">
+                <canvas id="analyticsCashFlowChart"></canvas>
+              </div>
+            </div>
+
+            <!-- 2. Category Distribution Doughnut -->
+            <div class="fin-card quad-chart-card">
+              <div class="section-header">
+                <h4 class="section-title" style="font-size: 1.05rem;">2. Category Distribution</h4>
+                <span class="section-subtitle">Share of Wallet</span>
+              </div>
+              <div class="quad-chart-wrap">
+                <canvas id="analyticsCategoryChart"></canvas>
+              </div>
+            </div>
+
+            <!-- 3. Monthly Spending Trend -->
+            <div class="fin-card quad-chart-card">
+              <div class="section-header">
+                <h4 class="section-title" style="font-size: 1.05rem;">3. Monthly Spending Volatility</h4>
+                <span class="section-subtitle">Expenditure over time</span>
+              </div>
+              <div class="quad-chart-wrap">
+                <canvas id="analyticsSpendingTrendChart"></canvas>
+              </div>
+            </div>
+
+            <!-- 4. Savings Growth Trajectory -->
+            <div class="fin-card quad-chart-card">
+              <div class="section-header">
+                <h4 class="section-title" style="font-size: 1.05rem;">4. Cumulative Savings Growth</h4>
+                <span class="section-subtitle">Asset accumulation</span>
+              </div>
+              <div class="quad-chart-wrap">
+                <canvas id="analyticsSavingsGrowthChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             VIEW 4: BUDGETS
+             ================================================================ -->
+        <section class="view-section" id="view-budgets">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Category Budgets</h2>
+              <p class="section-subtitle">Automated threshold monitoring. Warnings at 80%, alerts at 100%.</p>
+            </div>
+            <button class="btn-primary-gradient" id="btnOpenAddBudgetModal">
+              <i class="fa-solid fa-sliders"></i>
+              <span>Adjust Budgets</span>
+            </button>
+          </div>
+
+          <div class="budget-items-list" id="fullBudgetsList">
+            <!-- Populated via script.js -->
+          </div>
+        </section>
+
+        <!-- ================================================================
+             VIEW 5: SAVINGS GOALS
+             ================================================================ -->
+        <section class="view-section" id="view-goals">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Savings Goals & Targets</h2>
+              <p class="section-subtitle">Visualize milestones and track automated progression with compound targets</p>
+            </div>
+            <button class="btn-primary-gradient" id="btnOpenNewGoalModal">
+              <i class="fa-solid fa-plus"></i>
+              <span>Create New Goal</span>
+            </button>
+          </div>
+
+          <div class="goals-grid" id="fullGoalsList">
+            <!-- Populated via script.js -->
+          </div>
+        </section>
+
+        <!-- ================================================================
+             VIEW 6: AI INSIGHTS
+             ================================================================ -->
+        <section class="view-section" id="view-ai-insights">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--accent-purple);"></i> Finova Intelligence Center</h2>
+              <p class="section-subtitle">Pattern detection, automated forecasting, and algorithmic money guidance</p>
+            </div>
+            <button class="btn-primary-gradient" id="btnRunAiAnalysis">
+              <i class="fa-solid fa-brain"></i>
+              <span>Scan & Regenerate</span>
+            </button>
+          </div>
+
+          <!-- Featured Insight Hero -->
+          <div class="ai-hero-card">
+            <div class="ai-card-inner">
+              <div class="ai-card-content">
+                <span class="ai-powered-badge"><i class="fa-solid fa-sparkles"></i> Executive AI Summary</span>
+                <h3 style="font-size: 1.3rem; margin-top: 4px;">Health Score: <span style="color: var(--income);">92/100 (Optimal)</span></h3>
+                <p style="font-size: 0.96rem; line-height: 1.6; color: var(--text-secondary);">
+                  Finova's intelligence engine has cross-analyzed your recurring transactions, spending velocity, and savings ratios. You are currently saving <strong style="color: var(--text-primary);">61.2%</strong> of total inflow—putting you in the top 5% of disciplined savers.
+                </p>
+              </div>
+              <div class="ai-card-action">
+                <div style="font-size: 2.2rem; font-weight: 800; color: var(--accent-purple); font-family: 'Poppins', sans-serif;">
+                  92<span style="font-size: 1.1rem; color: var(--text-muted);">/100</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 16. AI INSIGHT CARDS -->
+          <div class="ai-insights-grid" id="aiInsightsGrid">
+            <!-- 1. Spending Pattern -->
+            <div class="ai-insight-card">
+              <div class="ai-insight-top">
+                <span class="ai-insight-badge"><i class="fa-solid fa-chart-simple"></i> Spending Pattern</span>
+                <span style="font-size: 0.74rem; color: var(--text-muted);">High Confidence</span>
+              </div>
+              <h4 class="ai-insight-heading">Weekend Velocity Peak</h4>
+              <p class="ai-insight-body">
+                "You spend the most between Friday and Sunday, averaging $84/day compared to $28/day on weekdays. 62% of this variance is concentrated in Dining & Leisure."
+              </p>
+              <div class="ai-insight-action">
+                <span class="trend-badge" style="background: var(--primary-light); color: var(--primary);">Tip: Pre-set weekend spending caps</span>
+              </div>
+            </div>
+
+            <!-- 2. Saving Opportunity -->
+            <div class="ai-insight-card">
+              <div class="ai-insight-top">
+                <span class="ai-insight-badge" style="color: var(--income);"><i class="fa-solid fa-piggy-bank"></i> Saving Opportunity</span>
+                <span style="font-size: 0.74rem; color: var(--income);">+$120/mo potential</span>
+              </div>
+              <h4 class="ai-insight-heading">Micro-Expense Trimming</h4>
+              <p class="ai-insight-body">
+                "Reducing shopping expenses by 10% could save you approximately $120/month. Over 12 months, this would fund 60% of your New Laptop savings target."
+              </p>
+              <div class="ai-insight-action">
+                <span class="trend-badge positive">Auto-save opportunity detected</span>
+              </div>
+            </div>
+
+            <!-- 3. Monthly Forecast -->
+            <div class="ai-insight-card">
+              <div class="ai-insight-top">
+                <span class="ai-insight-badge" style="color: #38bdf8;"><i class="fa-solid fa-crystal-ball"></i> Monthly Forecast</span>
+                <span style="font-size: 0.74rem; color: var(--text-muted);">Projection</span>
+              </div>
+              <h4 class="ai-insight-heading">Month-End Outflow Model</h4>
+              <p class="ai-insight-body">
+                "Based on your current spending pattern, your projected monthly expenses are $3,850. You will comfortably remain under your total budget of $4,200."
+              </p>
+              <div class="ai-insight-action">
+                <span class="trend-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">Surplus buffer: $350.00</span>
+              </div>
+            </div>
+
+            <!-- 4. Smart Recommendation -->
+            <div class="ai-insight-card">
+              <div class="ai-insight-top">
+                <span class="ai-insight-badge" style="color: var(--warning);"><i class="fa-solid fa-bullseye"></i> Smart Recommendation</span>
+                <span style="font-size: 0.74rem; color: var(--warning);">Milestone Accelerant</span>
+              </div>
+              <h4 class="ai-insight-heading">Emergency Reserve Acceleration</h4>
+              <p class="ai-insight-body">
+                "You are on track to reach your Emergency Fund goal 2 months earlier than scheduled due to consistent monthly surplus allocations."
+              </p>
+              <div class="ai-insight-action">
+                <span class="trend-badge" style="background: var(--warning-light); color: var(--warning);">Estimated Completion: November</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             VIEW 7: SETTINGS
+             ================================================================ -->
+        <section class="view-section" id="view-settings">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Platform Settings & Preferences</h2>
+              <p class="section-subtitle">Customize user profile, local currency, themes, and persistence controls</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <!-- Profile Info -->
+            <div class="fin-card settings-card">
+              <h3 class="section-title" style="font-size: 1.1rem;"><i class="fa-regular fa-user"></i> User Profile</h3>
+              <form id="settingsProfileForm">
+                <div class="form-group" style="margin-bottom: 14px;">
+                  <label class="form-label" for="settingsUserName">Display Name</label>
+                  <input type="text" class="form-control" id="settingsUserName" value="Alex Morgan" required />
+                </div>
+                <div class="form-group" style="margin-bottom: 14px;">
+                  <label class="form-label" for="settingsUserEmail">Email Address</label>
+                  <input type="email" class="form-control" id="settingsUserEmail" value="alex.morgan@finova.ai" required />
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                  <label class="form-label" for="settingsCurrencySelect">Preferred Currency</label>
+                  <select class="custom-select form-control" id="settingsCurrencySelect">
+                    <option value="USD">USD ($) - US Dollar</option>
+                    <option value="EUR">EUR (€) - Euro</option>
+                    <option value="GBP">GBP (£) - British Pound</option>
+                    <option value="INR">INR (₹) - Indian Rupee</option>
+                    <option value="PKR">PKR (Rs) - Pakistani Rupee</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn-primary-gradient">
+                  Save Profile Changes
+                </button>
+              </form>
+            </div>
+
+            <!-- Preferences & System -->
+            <div class="fin-card settings-card">
+              <h3 class="section-title" style="font-size: 1.1rem;"><i class="fa-solid fa-sliders"></i> Preferences</h3>
+
+              <!-- Dark Mode Switch -->
+              <div class="toggle-switch-wrap">
+                <div class="toggle-label-wrap">
+                  <span class="toggle-label-title">Dark Interface Theme</span>
+                  <span class="toggle-label-sub">High contrast deep navy aesthetic</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingsDarkModeToggle" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- Notifications Switch -->
+              <div class="toggle-switch-wrap">
+                <div class="toggle-label-wrap">
+                  <span class="toggle-label-title">AI Pacing Notifications</span>
+                  <span class="toggle-label-sub">Threshold alerts when spending crosses 80%</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingsNotifToggle" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- Sound / Micro-interactions -->
+              <div class="toggle-switch-wrap">
+                <div class="toggle-label-wrap">
+                  <span class="toggle-label-title">Custom Smooth Cursor</span>
+                  <span class="toggle-label-sub">Interactive magnetic halo on desktop</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingsCursorToggle" checked />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 10px;">
+                <span class="form-label">Data Management</span>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                  <button class="btn-secondary" id="btnExportData" title="Export transactions to JSON">
+                    <i class="fa-solid fa-download"></i> Export Data (JSON)
+                  </button>
+                  <button class="btn-secondary" id="btnResetDemoData" title="Reset back to factory demo data">
+                    <i class="fa-solid fa-rotate-left"></i> Reset Demo Data
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /.content-body -->
+
+    </main>
+  </div><!-- /.app-wrapper -->
+
+  <!-- ====================================================================
+       9. ADD / EDIT TRANSACTION MODAL
+       ==================================================================== -->
+  <div class="modal-overlay" id="transactionModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Add Transaction</h3>
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="transactionForm">
+        <input type="hidden" id="editTxId" value="" />
+        
+        <div class="modal-body">
+          <!-- Type Segmented Switch: Expense vs Income -->
+          <div class="form-group">
+            <label class="form-label">Transaction Type</label>
+            <div class="type-toggle-segmented" id="modalTypeSegmented">
+              <button type="button" class="type-toggle-btn active expense" data-tx-type="EXPENSE">
+                <i class="fa-solid fa-arrow-trend-down"></i> Expense
+              </button>
+              <button type="button" class="type-toggle-btn income" data-tx-type="INCOME">
+                <i class="fa-solid fa-arrow-trend-up"></i> Income
+              </button>
+            </div>
+          </div>
+
+          <!-- Transaction Name -->
+          <div class="form-group">
+            <label class="form-label" for="txInputName">Transaction Name *</label>
+            <input type="text" class="form-control" id="txInputName" placeholder="e.g. Netflix, Salary, Whole Foods" required />
+          </div>
+
+          <!-- Amount & Date (2 columns) -->
+          <div class="modal-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="txInputAmount">Amount * (<span class="formCurrencySymbol">$</span>)</label>
+              <input type="number" step="0.01" min="0.01" class="form-control" id="txInputAmount" placeholder="0.00" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="txInputDate">Date *</label>
+              <input type="date" class="form-control" id="txInputDate" required />
+            </div>
+          </div>
+
+          <!-- Category & Payment Method (2 columns) -->
+          <div class="modal-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="txInputCategory">Category *</label>
+              <select class="custom-select form-control" id="txInputCategory" required>
+                <option value="Food">🍔 Food</option>
+                <option value="Shopping">🛍 Shopping</option>
+                <option value="Transport">🚗 Transport</option>
+                <option value="Bills">🏠 Bills</option>
+                <option value="Entertainment">🎬 Entertainment</option>
+                <option value="Health">💊 Health</option>
+                <option value="Education">📚 Education</option>
+                <option value="Other">📦 Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="txInputPaymentMethod">Payment Method *</label>
+              <select class="custom-select form-control" id="txInputPaymentMethod" required>
+                <option value="Credit Card">Credit Card</option>
+                <option value="Debit Card">Debit Card</option>
+                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="Cash">Cash</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Notes (Optional) -->
+          <div class="form-group">
+            <label class="form-label" for="txInputNotes">Notes (Optional)</label>
+            <textarea class="form-control" id="txInputNotes" rows="2" placeholder="Add extra detail or memo..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="modalCancelBtn">Cancel</button>
+          <button type="submit" class="btn-primary-gradient" id="modalSubmitBtn">
+            Add Transaction
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       ADD / EDIT GOAL MODAL
+       ==================================================================== -->
+  <div class="modal-overlay" id="goalModal" role="dialog" aria-modal="true">
+    <div class="modal-content" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="goalModalTitle">New Savings Goal</h3>
+        <button class="modal-close-btn" id="goalModalCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="goalForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="goalInputName">Goal Name</label>
+            <input type="text" class="form-control" id="goalInputName" placeholder="e.g. New Laptop, Japan Trip" required />
+          </div>
+          <div class="modal-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="goalInputCurrent">Current Saved (<span class="formCurrencySymbol">$</span>)</label>
+              <input type="number" step="0.01" class="form-control" id="goalInputCurrent" placeholder="0.00" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="goalInputTarget">Target Amount (<span class="formCurrencySymbol">$</span>)</label>
+              <input type="number" step="0.01" class="form-control" id="goalInputTarget" placeholder="2500.00" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="goalInputIcon">Goal Icon / Emoji</label>
+            <select class="custom-select form-control" id="goalInputIcon">
+              <option value="💻">💻 Technology / Laptop</option>
+              <option value="✈️">✈️ Vacation & Travel</option>
+              <option value="🛡️">🛡️ Emergency Fund</option>
+              <option value="🚗">🚗 Vehicle</option>
+              <option value="🏡">🏡 Home & Property</option>
+              <option value="🎓">🎓 Education</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="goalModalCancelBtn">Cancel</button>
+          <button type="submit" class="btn-primary-gradient">Save Goal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       ADD / ADJUST BUDGET MODAL
+       ==================================================================== -->
+  <div class="modal-overlay" id="budgetModal" role="dialog" aria-modal="true" aria-labelledby="budgetModalTitle">
+    <div class="modal-content" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="budgetModalTitle">Adjust Category Budget</h3>
+        <button class="modal-close-btn" id="budgetModalCloseBtn" aria-label="Close modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <form id="budgetForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="budgetCategorySelect">Category *</label>
+            <select class="custom-select form-control" id="budgetCategorySelect" required>
+              <option value="Food">🍔 Food</option>
+              <option value="Shopping">🛍 Shopping</option>
+              <option value="Transport">🚗 Transport</option>
+              <option value="Bills">🏠 Bills</option>
+              <option value="Entertainment">🎬 Entertainment</option>
+              <option value="Health">💊 Health</option>
+              <option value="Education">📚 Education</option>
+              <option value="Other">📦 Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="budgetLimitInput">Monthly Budget Limit * (<span class="formCurrencySymbol">$</span>)</label>
+            <input type="number" step="10" min="10" class="form-control" id="budgetLimitInput" placeholder="500" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="budgetModalCancelBtn">Cancel</button>
+          <button type="submit" class="btn-primary-gradient" id="budgetModalSubmitBtn">
+            Save Budget
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       QUICK SEARCH MODAL (Ctrl+K or Search Icon)
+       ==================================================================== -->
+  <div class="search-modal" id="quickSearchModal">
+    <div class="search-container">
+      <div class="search-input-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" class="search-modal-input" id="quickSearchModalInput" placeholder="Quick search transactions, categories, amount..." autofocus />
+        <span style="font-size: 0.72rem; padding: 3px 6px; background: rgba(255,255,255,0.08); border-radius: 4px; color: var(--text-muted);">ESC</span>
+      </div>
+      <div class="search-results-list" id="quickSearchResultsList">
+        <!-- Results injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       21. TOAST NOTIFICATIONS CONTAINER
+       ==================================================================== -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- SVG Gradient Definitions for Goal Circular Progress -->
+  <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+    <defs>
+      <linearGradient id="goalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#38bdf8" />
+        <stop offset="100%" stop-color="#8b5cf6" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Finova Application Core Logic -->
+  <script src="/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "Finova",
+  "description": "Smart money decisions, powered by intelligence. A premium modern AI finance dashboard with real-time tracking, analytics, budgets, and savings goals.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
